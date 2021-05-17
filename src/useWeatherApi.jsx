@@ -33,9 +33,11 @@ const fetchCurrentWeather = (locationName) => {
     .then((response) => response.json())
     .then((data) => {
       const locationData = data.records.location[0];
+      console.log("t",data);
 
       // STEP 2：將風速（WDSD）、氣溫（TEMP）和濕度（HUMD）的資料取出
-      const weatherElements = locationData.weatherElement.reduce(
+
+      const weatherElements = locationData && locationData.weatherElement.reduce(
         (neededElements, item) => {
           if (["WDSD", "TEMP", "HUMD"].includes(item.elementName)) {
             neededElements[item.elementName] = item.elementValue;
@@ -46,12 +48,12 @@ const fetchCurrentWeather = (locationName) => {
       );
 
       return {
-        observationTime: locationData.time.obsTime,
-        locationName: locationData.locationName,
+        observationTime: (locationData && locationData.time.obsTime) || 0 ,
+        locationName: (locationData && locationData.locationName) || '未知地點',
         description: "多雲時晴",
-        temperature: weatherElements.TEMP,
-        windSpeed: weatherElements.WDSD,
-        humid: weatherElements.HUMD
+        temperature: (weatherElements && weatherElements.TEMP) || 0,
+        windSpeed: (weatherElements && weatherElements.WDSD) || 0,
+        humid: (weatherElements && weatherElements.HUMD) || 0
       };
     });
 };

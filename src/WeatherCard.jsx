@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 import WeatherIcon from "./WeatherIcon.jsx";
-
+import dayjs from 'dayjs';
 import { ReactComponent as AirFlowIcon } from "./images/airFlow.svg";
 import { ReactComponent as RainIcon } from "./images/rain.svg";
 import { ReactComponent as RefreshIcon } from "./images/refresh.svg";
@@ -177,11 +177,10 @@ const WeatherCard = (props) => {
 
       <Refresh isLoading={isLoading}>
         最後觀測時間：
-        {new Intl.DateTimeFormat("zh-TW", {
-          hour: "numeric",
-          minute: "numeric"
-        }).format(new Date(observationTime))}
-        {"　"}
+        {new Intl.DateTimeFormat('zh-TW', {
+          hour: 'numeric',
+          minute: 'numeric',
+        }).format(dayjs(observationTime))}{' '}
         {isLoading ? (
           <LoadingIcon />
         ) : (
